@@ -28,6 +28,18 @@ def get_all_drinks():
     except:
         abort(422)
 
+@app.route('/drinks-detail')
+@requires_auth('get:drinks-detail')
+def get_drink_detail(payload):
+    try:
+        drinks = Drink.query.all()
+        drinks = [drink.long() for drink in drinks]
+        return jsonify({
+            'success': True,
+            'drink': drinks
+        }), 200
+    except:
+        abort(422)
 '''
 @TODO implement endpoint
     GET /drinks-detail
