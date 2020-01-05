@@ -40,6 +40,33 @@ def get_drink_detail(payload):
         }), 200
     except:
         abort(422)
+
+@app.route('/drinks', methods=['POST'])
+@requires_auth('post:drinks')
+def post_drinks(payload):
+    try:
+        data = request.get_json()['title'] and request.get_json()['recipe']
+        if not data:
+            abort(400)
+    except (TypeError, KeyError):
+        abort(400)
+
+    # check if drink title existx
+    if Drink.query.filter_by(title=request.get_json()['title']).first():
+        abort(409)
+
+    try:
+        Drink(
+            title=request.get_json()['title'],
+            recipe=json.dumps(request.get_json()['recipe'])
+        ).insert()
+        drink = Drink.query.filter_by(title=request.get_json()['title']).first()
+        return jsonify({
+            'success': True,
+            'drinks': drink.long()
+        }), 201
+    except:
+        abort(422)
 '''
 @TODO implement endpoint
     GET /drinks-detail
