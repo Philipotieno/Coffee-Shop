@@ -11,23 +11,22 @@ app = Flask(__name__)
 setup_db(app)
 CORS(app)
 
-'''
-@TODO uncomment the following line to initialize the datbase
-!! NOTE THIS WILL DROP ALL RECORDS AND START YOUR DB FROM SCRATCH
-!! NOTE THIS MUST BE UNCOMMENTED ON FIRST RUN
-'''
 # db_drop_and_create_all()
 
 ## ROUTES
-'''
-@TODO implement endpoint
-    GET /drinks
-        it should be a public endpoint
-        it should contain only the drink.short() data representation
-    returns status code 200 and json {"success": True, "drinks": drinks} where drinks is the list of drinks
-        or appropriate status code indicating reason for failure
-'''
 
+@app.route('/drinks')
+def get_all_drinks():
+    try:
+        drinks = Drink.query.all()
+        drinks = [drink.short() for drink in drinks]
+        return jsonify({
+            'success': True,
+            'drink': drinks
+        }), 200
+
+    except:
+        abort(422)
 
 '''
 @TODO implement endpoint
@@ -41,6 +40,21 @@ CORS(app)
 
 '''
 @TODO implement endpoint
+@TODO uncomment the following line to initialize the datbase
+!! NOTE THIS WILL DROP ALL RECORDS AND START YOUR DB FROM SCRATCH
+!! NOTE THIS MUST BE UNCOMMENTED ON FIRST RUN
+'''
+'''
+@TODO uncomment the following line to initialize the datbase
+!! NOTE THIS WILL DROP ALL RECORDS AND START YOUR DB FROM SCRATCH
+!! NOTE THIS MUST BE UNCOMMENTED ON FIRST RUN
+'''
+'''
+@TODO uncomment the following line to initialize the datbase
+!! NOTE THIS WILL DROP ALL RECORDS AND START YOUR DB FROM SCRATCH
+!! NOTE THIS MUST BE UNCOMMENTED ON FIRST RUN
+'''
+'''
     POST /drinks
         it should create a new row in the drinks table
         it should require the 'post:drinks' permission
