@@ -98,6 +98,21 @@ def patch_drinks(payload, id):
     except Exception:
         abort(422)
 
+@app.route('/drinks/<id>', methods=['DELETE'])
+@requires_auth('delete:drinks')
+def delete_drinks(payload, id):
+    drink = Drink.query.filter_by(id=id).first()
+    if not drink:
+        abort(404)
+
+    try:
+        drink.delete()
+        return jsonify({
+            'success': True,
+            'delete': id
+        }), 200
+    except Exception:
+        abort(422)
 
 # Error Handling
 
