@@ -1,6 +1,4 @@
-import os
 from flask import Flask, request, jsonify, abort
-from sqlalchemy import exc
 import json
 from flask_cors import CORS
 
@@ -51,7 +49,7 @@ def post_drinks(payload):
     except (TypeError, KeyError):
         abort(400)
 
-    # check if drink title existx
+    # check if drink title exists
     if Drink.query.filter_by(title=request.get_json()['title']).first():
         abort(409)
 
@@ -132,13 +130,13 @@ def post_drinks(payload):
 '''
 Example error handling for unprocessable entity
 '''
-@app.errorhandler(422)
-def unprocessable(error):
-    return jsonify({
-                    "success": False, 
-                    "error": 422,
-                    "message": "unprocessable"
-                    }), 422
+# @app.errorhandler(422)
+# def unprocessable(error):
+#     return jsonify({
+#                     "success": False, 
+#                     "error": 422,
+#                     "message": "unprocessable"
+#                     }), 422
 
 '''
 @TODO implement error handlers using the @app.errorhandler(error) decorator
@@ -157,7 +155,49 @@ def unprocessable(error):
 '''
 
 
-'''
-@TODO implement error handler for AuthError
-    error handler should conform to general task above 
-'''
+
+# Error Handling
+
+# @app.errorhandler(400)
+# def bad_request(error):
+#     return jsonify({
+#         "success": False,
+#         "error": 400,
+#         "message": "bad request"
+#     }), 400
+
+
+# @app.errorhandler(404)
+# def not_found(error):
+#     return jsonify({
+#         "success": False,
+#         "error": 404,
+#         "message": "not found"
+#     }), 404
+
+
+# @app.errorhandler(409)
+# def duplicate(error):
+#     return jsonify({
+#         "success": False,
+#         "error": 409,
+#         "message": "duplicate"
+#     }), 409
+
+
+# # @app.errorhandler(422)
+# # def unprocessable(error):
+# #     return jsonify({
+# #         "success": False,
+# #         "error": 422,
+# #         "message": "unprocessable"
+# #     }), 422
+
+
+# @app.errorhandler(AuthError)
+# def auth_error(error):
+#     return jsonify({
+#         "success": False,
+#         "error": error.status_code,
+#         "message": error.error
+#     }), error.status_code
