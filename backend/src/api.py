@@ -9,22 +9,22 @@ app = Flask(__name__)
 setup_db(app)
 CORS(app)
 
-# db_drop_and_create_all()
+db_drop_and_create_all()
 
 ## ROUTES
 
 @app.route('/drinks')
 def get_all_drinks():
-    try:
-        drinks = Drink.query.all()
-        drinks = [drink.short() for drink in drinks]
-        return jsonify({
-            'success': True,
-            'drinks': drinks
-        }), 200
+    # try:
+    drinks = Drink.query.all()
+    drinks = [drink.short() for drink in drinks]
+    return jsonify({
+        'success': True,
+        'drinks': drinks
+    }), 200
 
-    except:
-        abort(422)
+    # except:
+    #     abort(422)
 
 @app.route('/drinks-detail')
 @requires_auth('get:drinks-detail')
